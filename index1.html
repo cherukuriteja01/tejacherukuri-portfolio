@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Teja CHERUKURI — SOFTWARE TEST ENGINERR/QA ENGINEER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
+<head>
+  <!-- your other head tags -->
+  <link rel="stylesheet" href="port.css">
+</head>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#04070f;
+  --bg1:#070d1a;
+  --bg2:#0a1020;
+  --glow:#00ffe0;
+  --glow2:#0066ff;
+  --red:#ff3366;
+  --text:#eef2ff;
+  --muted:#4a5568;
+  --muted2:#718096;
+  --border:rgba(0,255,224,0.08);
+  --border2:rgba(255,255,255,0.06);
+  --ff-head:'Bebas Neue',sans-serif;
+  --ff-body:'Manrope',sans-serif;
+  --ff-code:'Fira Code',monospace;
+}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity;}
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);overflow-x:hidden;cursor:none;}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:8px;height:8px;background:var(--glow);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:screen;}
+#cur-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(0,255,224,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+body:has(a:hover) #cur{width:16px;height:16px;background:#fff;}
+body:has(a:hover) #cur-ring{width:48px;height:48px;}
+
+/* ── CANVAS ── */
+#bg-canvas{position:fixed;inset:0;z-index:0;opacity:.5;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 60px;border-bottom:1px solid var(--border);background:rgba(4,7,15,0.85);backdrop-filter:blur(20px);}
+.logo{font-family:var(--ff-head);font-size:1.6rem;letter-spacing:.05em;color:var(--text);text-decoration:none;position:relative;}
+.logo::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--glow);transition:width .4s ease;}
+.logo:hover::after{width:100%;}
+.nav-r{display:flex;align-items:center;gap:8px;}
+.nav-btn{font-family:var(--ff-code);font-size:.65rem;font-weight:300;color:var(--muted2);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;background:none;cursor:none;}
+.nav-btn:hover,.nav-btn.active{color:var(--glow);border-color:var(--border);background:rgba(0,255,224,0.04);}
+.nav-hire{font-family:var(--ff-code);font-size:.65rem;color:var(--bg);background:var(--glow);padding:8px 18px;border:none;cursor:none;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;margin-left:8px;transition:box-shadow .2s,transform .2s;}
+.nav-hire:hover{box-shadow:0 0 20px rgba(0,255,224,.4);transform:translateY(-1px);}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1;}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:68px 60px 0;overflow:visible;}
+.hero-inner{position:relative;z-index:2;}
+
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-code);font-size:.68rem;color:var(--glow);letter-spacing:.1em;text-transform:uppercase;margin-bottom:32px;opacity:0;animation:fadeUp .8s .2s ease forwards;}
+.hero-tag-dot{width:6px;height:6px;background:var(--glow);border-radius:50%;animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,255,224,.4)}50%{box-shadow:0 0 0 8px rgba(0,255,224,0)}}
+
+.hero-name{font-family:var(--ff-head);font-size:clamp(3.5rem,9vw,8rem);line-height:.9;letter-spacing:.02em;margin-bottom:8px;opacity:0;animation:fadeUp .8s .3s ease forwards;}
+.hero-name-accent{color:transparent;-webkit-text-stroke:1px var(--glow);text-shadow:0 0 40px rgba(0,255,224,.2);}
+
+.hero-subtitle{font-family:var(--ff-body);font-size:clamp(0.6rem,1.2vw,0.85rem);font-weight:300;color:var(--muted2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;opacity:0;animation:fadeUp .8s .4s ease forwards;}
+
+.hero-desc{max-width:520px;font-size:1.05rem;font-weight:300;line-height:1.8;color:#8892a4;margin-bottom:24px;opacity:0;animation:fadeUp .8s .5s ease forwards;}
+.hero-desc strong{color:var(--text);font-weight:500;}
+
+.hero-btns{display:flex;gap:14px;opacity:0;animation:fadeUp .8s .6s ease forwards;}
+.btn-glow{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:transparent;color:var(--glow);font-family:var(--ff-code);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--glow);text-decoration:none;cursor:none;position:relative;overflow:hidden;transition:color .3s;}
+.btn-glow::before{content:'';position:absolute;inset:0;background:var(--glow);transform:translateX(-101%);transition:transform .3s ease;}
+.btn-glow:hover{color:var(--bg);}
+.btn-glow:hover::before{transform:translateX(0);}
+.btn-glow span{position:relative;z-index:1;}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:transparent;color:var(--muted2);font-family:var(--ff-code);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--border2);text-decoration:none;cursor:none;transition:border-color .2s,color .2s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+
+.hero-stats{position:absolute;right:50px;top:220px;display:flex;flex-direction:column;gap:32px;opacity:0;animation:fadeUp .8s .7s ease forwards;}
+.hstat{text-align:right;position:relative;padding-right:20px;}
+.hstat::after{content:'';position:absolute;right:0;top:50%;height:60%;width:1px;background:linear-gradient(to bottom,transparent,var(--glow),transparent);transform:translateY(-50%);}
+.hstat-n{font-family:var(--ff-head);font-size:2.8rem;color:var(--glow);line-height:1;text-shadow:0 0 20px rgba(0,255,224,.3);}
+.hstat-l{font-family:var(--ff-code);font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
+
+.hero-scroll{position:absolute;bottom:55px;left:60px;display:flex;align-items:center;gap:12px;font-family:var(--ff-code);font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;opacity:0;animation:fadeUp .8s .8s ease forwards;}
+.scroll-track{width:40px;height:1px;background:var(--muted);overflow:hidden;position:relative;}
+.scroll-track::after{content:'';position:absolute;left:0;top:0;width:100%;height:100%;background:var(--glow);animation:scrollLine 2s ease infinite;}
+@keyframes scrollLine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* ── ABOUT ── */
+#about{padding:120px 60px;border-top:1px solid var(--border);}
+.section-label{font-family:var(--ff-code);font-size:.65rem;color:var(--glow);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+.section-label::before{content:'';width:40px;height:1px;background:var(--glow);}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.section-h{font-family:var(--ff-head);font-size:clamp(3rem,6vw,5.5rem);line-height:1;letter-spacing:.03em;margin-bottom:60px;}
+.section-h em{color:var(--glow);font-style:normal;}
+
+.about-grid{display:grid;grid-template-columns:1fr 340px;gap:80px;}
+.about-text p{font-size:1rem;font-weight:300;color:#8892a4;line-height:1.85;margin-bottom:20px;}
+.about-text p strong{color:var(--text);font-weight:500;}
+
+.about-values{display:flex;flex-direction:column;gap:1px;margin-top:48px;}
+.aval{padding:20px 0;border-top:1px solid var(--border2);display:flex;gap:20px;align-items:flex-start;transition:padding-left .3s;}
+.aval:hover{padding-left:8px;}
+.aval:last-child{border-bottom:1px solid var(--border2);}
+.aval-n{font-family:var(--ff-code);font-size:.6rem;color:var(--muted);margin-top:4px;width:20px;flex-shrink:0;}
+.aval-t{font-weight:700;font-size:.95rem;margin-bottom:4px;}
+.aval-d{font-size:.85rem;font-weight:300;color:var(--muted2);line-height:1.6;}
+
+.about-card{background:var(--bg1);border:1px solid var(--border);padding:36px;height:fit-content;position:relative;overflow:hidden;}
+.about-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--glow),transparent);}
+.card-title{font-family:var(--ff-code);font-size:.6rem;color:var(--glow);letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border2);}
+.info-row:last-child{border-bottom:none;}
+.ik{font-family:var(--ff-code);font-size:.62rem;color:var(--muted);}
+.iv{font-size:.82rem;font-weight:500;color:var(--text);}
+.live{color:#4ade80;display:flex;align-items:center;gap:6px;}
+.live::before{content:'';width:5px;height:5px;background:#4ade80;border-radius:50%;animation:pulse 2s ease infinite;}
+
+/* ── EXPERIENCE ── */
+#experience{padding:120px 60px;border-top:1px solid var(--border);background:var(--bg1);}
+.exp-items{display:flex;flex-direction:column;gap:2px;}
+.exp-card{background:var(--bg2);border:1px solid var(--border2);overflow:hidden;transition:border-color .3s;}
+.exp-card:hover{border-color:rgba(0,255,224,.2);}
+.exp-head{padding:32px 40px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;cursor:none;}
+.exp-head-l{}
+.exp-co{font-family:var(--ff-head);font-size:1.8rem;letter-spacing:.04em;margin-bottom:6px;}
+.exp-role-title{font-size:.9rem;font-weight:300;color:var(--muted2);}
+.exp-badge{display:inline-block;padding:3px 10px;background:rgba(0,255,224,.08);border:1px solid rgba(0,255,224,.2);font-family:var(--ff-code);font-size:.58rem;color:var(--glow);letter-spacing:.06em;margin-left:10px;}
+.exp-head-r{text-align:right;}
+.exp-period{font-family:var(--ff-code);font-size:.65rem;color:var(--glow);letter-spacing:.06em;margin-bottom:4px;}
+.exp-loc{font-family:var(--ff-code);font-size:.6rem;color:var(--muted);}
+.exp-body{padding:0 40px 36px;display:grid;grid-template-columns:1fr auto;gap:40px;}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.exp-bullets li{font-size:.88rem;font-weight:300;color:#8892a4;line-height:1.7;display:flex;gap:12px;}
+.exp-bullets li::before{content:'▹';color:var(--glow);flex-shrink:0;font-size:.75rem;margin-top:3px;}
+.exp-bullets li strong{color:var(--text);font-weight:500;}
+.exp-tags{display:flex;flex-direction:column;gap:8px;align-items:flex-end;min-width:140px;}
+.etag{padding:5px 12px;background:rgba(0,102,255,.06);border:1px solid rgba(0,102,255,.15);font-family:var(--ff-code);font-size:.58rem;color:rgba(96,165,250,.8);letter-spacing:.04em;white-space:nowrap;}
+
+/* ── PROJECTS ── */
+#projects{padding:120px 60px;border-top:1px solid var(--border);}
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.proj-card{background:var(--bg1);border:1px solid var(--border2);padding:40px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;}
+.proj-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,224,.03),transparent);opacity:0;transition:opacity .3s;}
+.proj-card:hover{border-color:rgba(0,255,224,.25);transform:translateY(-4px);}
+.proj-card:hover::after{opacity:1;}
+.proj-num{font-family:var(--ff-code);font-size:.6rem;color:var(--muted);letter-spacing:.1em;}
+.proj-icon-wrap{width:52px;height:52px;background:rgba(0,255,224,.06);border:1px solid rgba(0,255,224,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+.proj-title{font-family:var(--ff-head);font-size:1.4rem;letter-spacing:.04em;line-height:1.2;}
+.proj-desc{font-size:.85rem;font-weight:300;color:var(--muted2);line-height:1.7;flex:1;}
+.proj-highlights{display:flex;flex-direction:column;gap:6px;}
+.ph{font-size:.78rem;font-weight:300;color:#6b7a8f;line-height:1.5;display:flex;gap:8px;}
+.ph::before{content:'·';color:var(--glow);font-size:1rem;line-height:1.2;flex-shrink:0;}
+.ph strong{color:#9aa5b4;font-weight:500;}
+.proj-stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;}
+.ps{padding:3px 9px;border:1px solid var(--border2);font-family:var(--ff-code);font-size:.58rem;color:var(--muted2);}
+
+/* ── SKILLS ── */
+#skills{padding:120px 60px;border-top:1px solid var(--border);background:var(--bg1);}
+.skills-layout{display:grid;grid-template-columns:280px 1fr;gap:60px;}
+.skills-nav{display:flex;flex-direction:column;gap:2px;}
+.skill-tab{padding:16px 20px;background:transparent;border:1px solid transparent;font-family:var(--ff-code);font-size:.7rem;color:var(--muted2);letter-spacing:.06em;text-transform:uppercase;cursor:none;text-align:left;transition:all .2s;position:relative;}
+.skill-tab.active,.skill-tab:hover{background:var(--bg2);border-color:var(--border);color:var(--glow);}
+.skill-tab.active::after{content:'';position:absolute;right:-1px;top:0;bottom:0;width:2px;background:var(--glow);}
+.skill-panel{display:none;}
+.skill-panel.active{display:block;}
+.skill-panel-title{font-family:var(--ff-head);font-size:2.5rem;letter-spacing:.04em;margin-bottom:8px;}
+.skill-panel-sub{font-family:var(--ff-code);font-size:.65rem;color:var(--muted2);letter-spacing:.08em;margin-bottom:36px;}
+.skill-pills{display:flex;flex-wrap:wrap;gap:10px;}
+.spill{padding:10px 18px;background:var(--bg2);border:1px solid var(--border2);font-family:var(--ff-code);font-size:.68rem;color:var(--text);letter-spacing:.04em;cursor:none;transition:all .2s;}
+.spill:hover{border-color:var(--glow);color:var(--glow);background:rgba(0,255,224,.04);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,255,224,.1);}
+
+/* ── CONTACT ── */
+#contact{padding:120px 60px;border-top:1px solid var(--border);}
+.contact-wrap{display:grid;grid-template-columns:1fr 440px;gap:80px;}
+.contact-big{font-family:var(--ff-head);font-size:clamp(3rem,7vw,6.5rem);line-height:.95;letter-spacing:.02em;margin-bottom:40px;}
+.contact-big em{color:transparent;-webkit-text-stroke:1px var(--glow);}
+.contact-p{font-size:.95rem;font-weight:300;color:var(--muted2);line-height:1.8;max-width:480px;margin-bottom:48px;}
+.clinks{display:flex;flex-direction:column;gap:2px;}
+.clink{display:flex;align-items:center;gap:16px;padding:18px 24px;background:var(--bg1);border:1px solid var(--border2);text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s;position:relative;overflow:hidden;}
+.clink::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--glow);transform:scaleY(0);transition:transform .2s;}
+.clink:hover{border-color:rgba(0,255,224,.2);transform:translateX(6px);}
+.clink:hover::before{transform:scaleY(1);}
+.clink-ico{font-size:1.1rem;width:30px;}
+.clink-info{flex:1;}
+.clink-lbl{font-family:var(--ff-code);font-size:.58rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;}
+.clink-val{font-size:.88rem;font-weight:400;}
+.clink-arr{color:var(--muted);transition:transform .2s,color .2s;}
+.clink:hover .clink-arr{transform:translateX(4px);color:var(--glow);}
+
+.avail-box{background:var(--bg1);border:1px solid var(--border);padding:40px;position:relative;overflow:hidden;height:fit-content;}
+.avail-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--glow),transparent);}
+.avail-status{display:flex;align-items:center;gap:8px;font-family:var(--ff-code);font-size:.62rem;color:#4ade80;letter-spacing:.08em;margin-bottom:20px;}
+.avail-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse2 1.5s ease infinite;}
+@keyframes pulse2{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(74,222,128,0)}}
+.avail-title{font-family:var(--ff-head);font-size:1.6rem;letter-spacing:.04em;margin-bottom:14px;}
+.avail-desc{font-size:.85rem;font-weight:300;color:var(--muted2);line-height:1.7;margin-bottom:28px;}
+.avail-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.avail-list li{font-size:.82rem;font-weight:300;color:var(--muted2);display:flex;align-items:center;gap:10px;}
+.avail-list li::before{content:'';width:4px;height:4px;background:var(--glow);border-radius:50%;flex-shrink:0;}
+
+/* ── FOOTER ── */
+footer{padding:28px 60px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+.foot-l{font-family:var(--ff-code);font-size:.6rem;color:var(--muted);letter-spacing:.06em;}
+.foot-r{display:flex;gap:20px;}
+.foot-r a{font-family:var(--ff-code);font-size:.6rem;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+.foot-r a:hover{color:var(--glow);}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 20px;}
+  .nav-r .nav-btn{display:none;}
+  #hero{padding:68px 20px 0;}
+  .hero-stats{display:none;}
+  .hero-scroll{left:20px;}
+  #about,#experience,#projects,#skills,#contact{padding:80px 20px;}
+  .about-grid,.contact-wrap{grid-template-columns:1fr;}
+  .projects-grid{grid-template-columns:1fr;}
+  .skills-layout{grid-template-columns:1fr;}
+  .skills-nav{flex-direction:row;flex-wrap:wrap;}
+  footer{padding:20px;}
+  .exp-body{grid-template-columns:1fr;}
+  .exp-tags{flex-direction:row;flex-wrap:wrap;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo">TC</a>
+  <div class="nav-r">
+    <a href="#about" class="nav-btn">About</a>
+    <a href="#experience" class="nav-btn">Experience</a>
+    <a href="#projects" class="nav-btn">Projects</a>
+    <a href="#skills" class="nav-btn">Skills</a>
+    <a href="#contact" class="nav-hire">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+
+      <!-- LEFT: Text -->
+      <div class="hero-text">
+        <div class="hero-tag"><span class="hero-tag-dot"></span>Available for opportunities · Bangalore, India</div>
+        <h1 class="hero-name">TEJA<br><span class="hero-name-accent">CHERUKURI</span></h1>
+        <p class="hero-subtitle">SOFTWARE TEST ENGINEER &nbsp;·&nbsp; ETL TESTER &nbsp;·&nbsp; AUTOMATION ENGINEER</p>
+        <p class="hero-desc">
+  <strong>3+ years</strong> ensuring software quality across FinTech, Retail, and E-commerce —
+  specializing in <strong>Manual, ETL, API & Database Testing</strong> with hands-on experience in
+  <strong>Selenium & TestNG automation</strong>.
+</p>
+       <div class="hero-btns">
+  <a href="#projects" class="btn-glow"><span>View My Work →</span></a>
+  <a href="https://drive.google.com/uc?export=download&id=1h0jYMpQJbIj5LldMr_ksxGGHqWDMaxs1" target="_blank" class="btn-ghost">Download Resume</a>
+  <a href="#contact" class="btn-ghost">Get In Touch</a>
+</div>
+      </div>
+
+      <!-- RIGHT: Circular photo + floating tags like Sanket -->
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-ring-outer"></div>
+        <img src="assets/Profilepic teja.png" alt="Teja Cherukuri" class="hero-photo" />
+        
+      </div>
+
+    </div>
+
+    <!-- BOTTOM: Stats -->
+    <div class="hero-stats">
+  <div class="hstat"><div class="hstat-n">450+</div><div class="hstat-l">Test Cases Executed</div></div>
+  <div class="hstat"><div class="hstat-n">80+</div><div class="hstat-l">APIs Validated</div></div>
+  <div class="hstat"><div class="hstat-n">30%</div><div class="hstat-l">Production Defects Reduced</div></div>
+</div>
+    <div class="hero-scroll"><div class="scroll-track"></div>Scroll to explore</div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">01 &mdash; About Me</div>
+  <h2 class="section-h reveal reveal-delay-1">The person<br>behind the <em>tests</em></h2>
+  <div class="about-grid">
+    <div class="about-text reveal reveal-delay-2">
+      <p>I'm a <strong>Software Test Engineer based in Bangalore</strong>, focused on delivering reliable, bug-free systems through rigorous <strong>Manual, Automation, ETL, API, and Database Testing</strong> — not just surface-level checks.</p>
+      <p>With <strong>3+ years of experience</strong> in FinTech, Retail, and E-commerce, I've validated data pipelines, financial transactions, REST APIs, automated test scripts, and BI dashboards — all in production environments handling real data.</p>
+      <p>Currently at <strong>BizPe (Antler-Funded)</strong>, I own end-to-end quality of core B2B financial workflows — validating test cases across Sales, Purchases, Payments, and AI-powered invoice features, ensuring zero critical bugs reach production.</p>
+      <div class="about-values">
+        <div class="aval"><span class="aval-n">01</span><div><div class="aval-t">Quality First</div><div class="aval-d">A feature that isn't tested doesn't exist. Accuracy, reliability, and data integrity above all.</div></div></div>
+        <div class="aval"><span class="aval-n">02</span><div><div class="aval-t">Detail Oriented</div><div class="aval-d">Every bug matters. I dig deep into edge cases, boundary conditions, and unexpected user flows.</div></div></div>
+        <div class="aval"><span class="aval-n">03</span><div><div class="aval-t">Always Learning</div><div class="aval-d">Testing evolves fast. I stay current with automation tools, AI testing trends, and new frameworks.</div></div></div>
+      </div>
+    </div>
+    <div class="about-card reveal reveal-delay-3">
+      <div class="card-title">// Quick Info</div>
+      <div class="info-row"><span class="ik">location</span><span class="iv">Bangalore, India</span></div>
+      <div class="info-row"><span class="ik">role</span><span class="iv">Software Test Engineer</span></div>
+      <div class="info-row"><span class="ik">experience</span><span class="iv">3+ Years</span></div>
+      <div class="info-row"><span class="ik">degree</span><span class="iv">Bachelor of Technology</span></div>
+      <div class="info-row"><span class="ik">university</span><span class="iv">Sir C.R. Reddy College, JNTUK</span></div>
+      <div class="info-row"><span class="ik">graduated</span><span class="iv">Mar 2023</span></div>
+      <div class="info-row"><span class="ik">status</span><span class="iv live">Open to Work</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label reveal">02 &mdash; Experience</div>
+  <h2 class="section-h reveal reveal-delay-1">Where I've<br><em>tested</em> things</h2>
+  <div class="exp-items">
+
+    <div class="exp-card reveal reveal-delay-2">
+      <div class="exp-head">
+        <div class="exp-head-l">
+          <div class="exp-co">BIZPE <span class="exp-badge">Antler-Funded</span></div>
+          <div class="exp-role-title">Software Test Engineer</div>
+        </div>
+        <div class="exp-head-r">
+          <div class="exp-period">Aug 2025 — Present</div>
+          <div class="exp-loc">Bangalore, India</div>
+        </div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-bullets">
+          <li>Designed and executed <strong>300+ test cases</strong> covering functional, regression, smoke, and integration testing across core B2B financial workflows.</li>
+          <li>Tested <strong>Sales, Purchase, Credit Notes, Receipts, and Payments</strong> modules — ensuring zero critical bugs reach production.</li>
+          <li>Conducted <strong>cross-browser and cross-device testing</strong> using BrowserStack across multiple browsers, operating systems, and mobile devices.</li>
+          <li>Validated <strong>AI-powered invoice and party-creation features</strong>, reducing manual data-entry errors by 15%.</li>
+          <li>Tested <strong>15+ REST API endpoints</strong> using Postman — covering authentication, request/response validation, and error handling.</li>
+          <li>Verified <strong>data integrity across 20+ relational database tables</strong> using SQL queries.</li>
+          <li>Tracked and managed defects in <strong>Jira</strong> within Agile sprints, ensuring timely resolution.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="etag">Manual Testing</span><span class="etag">API Testing</span><span class="etag">Postman</span>
+          <span class="etag">BrowserStack</span><span class="etag">SQL</span><span class="etag">Jira</span><span class="etag">Agile</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card reveal reveal-delay-3">
+      <div class="exp-head">
+        <div class="exp-head-l">
+          <div class="exp-co">SANVAN TECHNOLOGIES LTD</div>
+          <div class="exp-role-title">ETL Test Engineer</div>
+        </div>
+        <div class="exp-head-r">
+          <div class="exp-period">Mar 2023 — Jul 2025</div>
+          <div class="exp-loc">Bangalore, India</div>
+        </div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-bullets">
+          <li>Executed <strong>end-to-end ETL testing</strong> on customer, order, sales, payment, and inventory datasets using Informatica and SSIS within data warehouse environments.</li>
+          <li>Validated <strong>Source-to-Target Mapping (STM)</strong> and transformation logic using complex SQL queries to ensure accurate data flow.</li>
+          <li>Tested <strong>batch and near-real-time data pipelines</strong> integrating POS, CRM, and e-commerce platforms for reliability and consistency.</li>
+          <li>Maintained <strong>data quality</strong> through null validation, duplicate detection, reconciliation, and business-rule verification.</li>
+          <li>Validated datasets in <strong>Amazon Redshift</strong> and verified BI dashboards in Power BI and Tableau for reporting accuracy.</li>
+          <li>Participated in <strong>Agile sprint planning and regression cycles</strong>; triaged and tracked ETL defects in Jira.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="etag">ETL Testing</span><span class="etag">SQL</span><span class="etag">Informatica</span>
+          <span class="etag">SSIS</span><span class="etag">Amazon Redshift</span><span class="etag">Power BI</span><span class="etag">Tableau</span><span class="etag">Jira</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">03 &mdash; Projects</div>
+  <h2 class="section-h reveal reveal-delay-1">Work that<br><em>proves</em> the quality</h2>
+  <div class="projects-grid">
+
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-num">// 01</div>
+      <div class="proj-icon-wrap">🤖</div>
+      <div class="proj-title">Selenium Web Automation Framework</div>
+      <div class="proj-desc">Built a scalable UI automation framework from scratch — covering real user workflows like login, form validation, and search with parallel execution support.</div>
+      <div class="proj-highlights">
+        <div class="ph"><strong>Page Object Model (POM)</strong> for clean, reusable page classes</div>
+        <div class="ph">Automated <strong>10+ test scenarios</strong> with TestNG assertions and parallel execution</div>
+        <div class="ph">Managed source code and versioning with <strong>Git on GitHub</strong></div>
+      </div>
+      <div class="proj-stack">
+        <span class="ps">Selenium WebDriver</span>
+        <span class="ps">Java</span>
+        <span class="ps">TestNG</span>
+        <span class="ps">POM</span>
+        <span class="ps">Git</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://github.com/cherukuriteja01" target="_blank" class="proj-link">View on GitHub →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">04 &mdash; Skills</div>
+  <h2 class="section-h reveal reveal-delay-1">The full <em>stack</em><br>of QA & Testing</h2>
+  <div class="skills-layout reveal reveal-delay-2">
+    
+    <div class="skills-nav">
+      <button class="skill-tab active" data-tab="manual">Manual Testing</button>
+      <button class="skill-tab" data-tab="api">API Testing</button>
+      <button class="skill-tab" data-tab="etl">ETL Testing</button>
+      <button class="skill-tab" data-tab="db">Database Testing</button>
+      <button class="skill-tab" data-tab="automation">Automation</button>
+      <button class="skill-tab" data-tab="tools">Tools</button>
+      <button class="skill-tab" data-tab="process">QA Process</button>
+    </div>
+
+    <div class="skills-content-area">
+
+      <div class="skill-panel active" id="tab-manual">
+        <div class="skill-panel-title">MANUAL TESTING</div>
+        <div class="skill-panel-sub">// Functional · Regression · UI</div>
+        <div class="skill-pills">
+          <span class="spill">Functional Testing</span>
+          <span class="spill">Regression Testing</span>
+          <span class="spill">Smoke Testing</span>
+          <span class="spill">Sanity Testing</span>
+          <span class="spill">UI Testing</span>
+          <span class="spill">Test Case Design</span>
+          <span class="spill">Defect Tracking</span>
+        </div>
+      </div>
+
+      <div class="skill-panel" id="tab-api">
+        <div class="skill-panel-title">API TESTING</div>
+        <div class="skill-panel-sub">// REST APIs · Validation</div>
+        <div class="skill-pills">
+          <span class="spill">REST API Testing</span>
+          <span class="spill">Postman</span>
+          <span class="spill">Request / Response Validation</span>
+          <span class="spill">HTTP Status Codes</span>
+          <span class="spill">JSON Validation</span>
+        </div>
+      </div>
+
+      <div class="skill-panel" id="tab-etl">
+        <div class="skill-panel-title">ETL TESTING</div>
+        <div class="skill-panel-sub">// Data Validation · STM</div>
+        <div class="skill-pills">
+          <span class="spill">Source to Target Mapping</span>
+          <span class="spill">Data Validation</span>
+          <span class="spill">Data Transformation Testing</span>
+          <span class="spill">Data Warehouse Testing</span>
+          <span class="spill">ETL Pipeline Validation</span>
+        </div>
+      </div>
+
+      <div class="skill-panel" id="tab-db">
+        <div class="skill-panel-title">DATABASE TESTING</div>
+        <div class="skill-panel-sub">// Queries · Data Integrity</div>
+        <div class="skill-pills">
+          <span class="spill">SQL</span>
+          <span class="spill">Data Validation</span>
+          <span class="spill">Joins</span>
+          <span class="spill">Row Count Validation</span>
+          <span class="spill">Data Integrity Checks</span>
+        </div>
+      </div>
+
+      <div class="skill-panel" id="tab-automation">
+        <div class="skill-panel-title">AUTOMATION TESTING</div>
+        <div class="skill-panel-sub">// Test Automation</div>
+        <div class="skill-pills">
+          <span class="spill">Selenium</span>
+          <span class="spill">TestNG</span>
+          <span class="spill">Automation Framework Basics</span>
+        </div>
+      </div>
+
+      <div class="skill-panel" id="tab-tools">
+        <div class="skill-panel-title">TOOLS</div>
+        <div class="skill-panel-sub">// QA tools</div>
+        <div class="skill-pills">
+          <span class="spill">JIRA</span>
+          <span class="spill">Git</span>
+          <span class="spill">Postman</span>
+          <span class="spill">SQL Clients</span>
+        </div>
+      </div>
+
+      <div class="skill-panel" id="tab-process">
+        <div class="skill-panel-title">QA PROCESS</div>
+        <div class="skill-panel-sub">// Testing lifecycle</div>
+        <div class="skill-pills">
+          <span class="spill">STLC</span>
+          <span class="spill">SDLC</span>
+          <span class="spill">Agile / Scrum</span>
+          <span class="spill">Defect Lifecycle</span>
+          <span class="spill">Test Planning</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal">05 &mdash; Contact</div>
+  <div class="contact-wrap">
+    <div class="reveal reveal-delay-1">
+      <div class="contact-big">LET'S BUILD<br>BUG FREE<br><em>TOGETHER</em></div>
+      <p class="contact-p">Whether it's a full-time role, a freelance project, or just a conversation about testing and software quality — I'm always open to connecting with teams who take quality seriously.</p>
+      <div class="clinks">
+        <a href="mailto:cherukuriteja01@gmail.com" class="clink">
+          <span class="clink-ico">✉️</span>
+          <div class="clink-info"><div class="clink-lbl">Email</div><div class="clink-val">cherukuriteja01@gmail.com</div></div>
+          <span class="clink-arr">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/teja-cherukuri" target="_blank" class="clink">
+          <span class="clink-ico">💼</span>
+          <div class="clink-info"><div class="clink-lbl">LinkedIn</div><div class="clink-val">linkedin.com/in/teja-cherukuri</div></div>
+          <span class="clink-arr">→</span>
+        </a>
+        <a href="https://github.com/cherukuriteja01" target="_blank" class="clink">
+          <span class="clink-ico">🐙</span>
+          <div class="clink-info"><div class="clink-lbl">GitHub</div><div class="clink-val">github.com/cherukuriteja01</div></div>
+          <span class="clink-arr">→</span>
+        </a>
+        <a href="tel:+919591798312" class="clink">
+          <span class="clink-ico">📱</span>
+          <div class="clink-info"><div class="clink-lbl">Phone</div><div class="clink-val">+91 9591798312</div></div>
+          <span class="clink-arr">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="avail-box">
+        <div class="avail-status"><span class="avail-dot"></span>Available for Work</div>
+        <div class="avail-title">Open to Opportunities</div>
+        <div class="avail-desc">Based in Bangalore. Open to on-site roles locally or remote positions globally.</div>
+        <ul class="avail-list">
+          <li>Full-time QA / Software Test Engineer roles</li>
+          <li>Web & Mobile Application Testing</li>
+          <li>Manual, API & Automation Testing projects</li>
+          <li>Database and ETL Testing</li>
+           <li>FinTech, Retail & E-commerce domains</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-l">© 2026 Teja Cherukuri — Software Test Engineer, Bangalore</span>
+  <div class="foot-r">
+    <a href="https://www.linkedin.com/in/teja-cherukuri" target="_blank">LinkedIn</a>
+    <a href="https://github.com/cherukuriteja01" target="_blank">GitHub</a>
+    <a href="mailto:cherukuriteja01@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+// ── CURSOR
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// ── CANVAS PARTICLES
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize(); window.addEventListener('resize',resize);
+
+class Particle{
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*W; this.y=Math.random()*H;
+    this.vx=(Math.random()-.5)*.3; this.vy=(Math.random()-.5)*.3;
+    this.r=Math.random()*1.5+.5; this.life=Math.random();
+    this.maxLife=Math.random()*.5+.5;
+  }
+  update(){
+    this.x+=this.vx; this.y+=this.vy; this.life+=.003;
+    if(this.life>this.maxLife||this.x<0||this.x>W||this.y<0||this.y>H) this.reset();
+  }
+  draw(){
+    const a=Math.sin(this.life/this.maxLife*Math.PI)*.4;
+    ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,255,224,${a})`; ctx.fill();
+  }
+}
+
+for(let i=0;i<80;i++) particles.push(new Particle());
+
+// draw connections
+function drawLines(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(0,255,224,${.08*(1-d/120)})`;
+        ctx.lineWidth=.5; ctx.stroke();
+      }
+    }
+  }
+}
+
+(function loop(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{p.update();p.draw();});
+  drawLines();
+  requestAnimationFrame(loop);
+})();
+
+// ── SCROLL REVEAL
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:.1});
+reveals.forEach(r=>obs.observe(r));
+
+// ── NAV ACTIVE
+const sections=document.querySelectorAll('section[id]');
+const navBtns=document.querySelectorAll('.nav-btn');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200) cur=s.id;});
+  navBtns.forEach(b=>{
+    b.classList.toggle('active',b.getAttribute('href')==='#'+cur);
+  });
+});
+
+// ── SKILLS TABS
+document.querySelectorAll('.skill-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.skill-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.skill-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ── SMOOTH NAV SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
